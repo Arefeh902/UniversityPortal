@@ -41,7 +41,7 @@ def get_all_student_sections(student_id: int, term_id: int, db: Session = Depend
 def create_practice_class_request(student_id: int, section_id: int, db: Session = Depends(get_session)):
     query = text("INSERT INTO practice_class_request (student_id, section_id, status\
                 VALUES (:student_id, :section_id, :status);")
-    result: Student = db.execute(query, {"student_id": student_id, "section_id": section_id, ""}).all()
+    result: Student = db.execute(query, {"student_id": student_id, "section_id": section_id, "status": "Pending"}).all()
     return JSONResponse(content=result, status_code=200)
 
 
