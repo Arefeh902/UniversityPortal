@@ -33,13 +33,14 @@ def create_user(user: UserCreate, db: Session = Depends(get_session)):
     if not (result is None):
         raise HTTPException(status_code=404, detail="Username already exists!")
     query = text(
-        "INSERT INTO public.user (first_name, last_name, phone, address) \
+        "INSERT INTO public.user (first_name, last_name, username, password, phone, address) \
          VALUES (:first_name, :last_name, :username, :password, :phone, :address);"
     )
     db.execute(query,
                {"first_name": user.first_name,
                 "last_name": user.last_name,
-                "username": ,
+                "username": user.username,
+                "password": user.password,
                 "phone": user.phone,
                 "address": user.address}
                )

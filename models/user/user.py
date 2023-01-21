@@ -16,12 +16,15 @@ class User(BaseModel):
 class UserCreate(BaseModel):
     first_name: str
     last_name: str
+    username: str
+    password: str
     phone: str
     address: str
     wallet: int
 
 
 class UserUpdate(BaseModel):
+    id: int
     first_name: Optional[str]
     last_name: Optional[str]
     phone: Optional[str]
