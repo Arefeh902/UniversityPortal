@@ -44,9 +44,9 @@ def create_user(user: UserCreate, db: Session = Depends(get_session)):
     query = text("SELECT * from student WHERE username=:username")
     result = db.execute(query, {"username": user.username}).fetchone()
     query1 = text("SELECT * from teacher WHERE username=:username")
-    result1 = db.execute(query, {"username": user.username}).fetchone()
+    result1 = db.execute(query1, {"username": user.username}).fetchone()
     query2 = text("SELECT * from employee WHERE username=:username")
-    result2 = db.execute(query, {"username": user.username}).fetchone()
+    result2 = db.execute(query2, {"username": user.username}).fetchone()
     if not (result is None and result1 is None and result2 is None):
         raise HTTPException(status_code=404, detail="Username already exists!")
     query = text(
