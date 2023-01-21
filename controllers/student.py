@@ -17,7 +17,7 @@ def get_student_terms(student_id: int, db: Session = Depends(get_session)):
 
 @router.get('/{student_id}/details')
 def get_student_detail(student_id: int, db: Session = Depends(get_session)):
-    query = text("SELECT * from student__term WHERE id:=student_id;")
+    query = text("SELECT * from student WHERE id:=student_id;")
     result: Student = db.execute(query, {"student_id": student_id}).all()
     return JSONResponse(content=result, status_code=200)
 
@@ -44,6 +44,13 @@ def create_practice_class_request(student_id: int, section_id: int, db: Session 
     result: Student = db.execute(query, {"student_id": student_id, "section_id": section_id, "status": "Pending"}).all()
     return JSONResponse(content=result, status_code=200)
 
+
+@router.get('/{student_id}/practice-class-request/{section_id}')
+def create_practice_class_request(student_id: int, section_id: int, db: Session = Depends(get_session)):
+    query = text("INSERT INTO practice_class_request (student_id, section_id, status\
+                VALUES (:student_id, :section_id, :status);")
+    result: Student = db.execute(query, {"student_id": student_id, "section_id": section_id, "status": "Pending"}).all()
+    return JSONResponse(content=result, status_code=200)
 
 # get student deadlines (exams)
 
