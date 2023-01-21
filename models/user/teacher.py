@@ -8,6 +8,8 @@ class Teacher(BaseModel):
     user_id: int
     start_date: date
     position: str
+    username: str
+    password: str
     is_heyatelmi: bool
     department: str
 
@@ -16,6 +18,8 @@ class TeacherCreate(BaseModel):
     user_id: int
     start_date: date
     position: str
+    username: str
+    password: str
     is_heyatelmi: bool
     department: str
 

@@ -8,6 +8,8 @@ class Student(BaseModel):
     user_id: int
     degree: int
     start_date: date
+    username: str
+    password: str
     membership_type: str
     ostad_moshaver: int
     department: str
@@ -17,6 +19,8 @@ class StudentCreate(BaseModel):
     user_id: int
     degree: int
     start_date: date
+    username: str
+    password: str
     membership_type: str
     ostad_moshaver: int
     department: str
