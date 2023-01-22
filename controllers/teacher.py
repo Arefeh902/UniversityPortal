@@ -41,6 +41,9 @@ def cancel_practice_class_request(practice_class_request_id: int, db: Session = 
     return JSONResponse(content=result, status_code=200)
 
 # start exam poll
+@router.post('/{section_id}/exam-poll/create')
+def create_exam_poll(exam_poll, section_id: int, db: Session = Depends(get_session)):
+    pass
 
 
 @router.get('{teacher_id}/advising-students')

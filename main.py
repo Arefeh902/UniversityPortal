@@ -4,7 +4,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 from db import get_session
 from router import api_router
-from models.user.user import UserCreate, UserLogin
+from models.user.user import UserCreate, UserLogin, User
 from models.user.teacher import Teacher
 from models.user.student import Student
 from models.user.employee import Employee
@@ -17,20 +17,21 @@ app.include_router(api_router)
 @app.post('/login')
 def login(user: UserLogin, db: Session = Depends(get_session)):
     query = text("SELECT * FROM public.user WHERE username = :username;")
-    result: Teacher = db.execute(query, {"username": user.username}).fetchone()
+    result: User = db.execute(query, {"username": user.username}).fetchone()
     if result is None:
         raise HTTPException(status_code=401, detail="Invalid username!")
     if user.password != result.password:
         raise HTTPException(status_code=401, detail="Invalid password!")
 
-    query_student = text("SELECT * FROM student WHERE user_id:=user_id")
+    query_student = text("SELECT * FROM student WHERE user_id=:user_id")
     students = db.execute(query_student, {"user_id": result.id}).all()
-    query_teacher = text("SELECT * FROM teacher WHERE user_id:=user_id")
+    query_teacher = text("SELECT * FROM teacher WHERE user_id=:user_id")
     teachers = db.execute(query_teacher, {"user_id": result.id}).all()
-    query_employee = text("SELECT * FROM employee WHERE user_id:=user_id")
-    employees = db.execute(query_employee, {"user_id": result.id})
+    query_employee = text("SELECT * FROM employee WHERE user_id=:user_id")
+    employees = db.execute(query_employee, {"user_id": result.id}).all()
 
-    result += {
+    result = dict(result)
+    result = result | {
         "student_infos": students,
         "teacher_infos": teachers,
         "employee_infos": employees
