@@ -23,6 +23,19 @@ def login(user: UserLogin, db: Session = Depends(get_session)):
     if user.password != result.password:
         raise HTTPException(status_code=401, detail="Invalid password!")
 
+    query_student = text("SELECT * FROM student WHERE user_id:=user_id")
+    students = db.execute(query_student, {"user_id": result.id}).all()
+    query_teacher = text("SELECT * FROM teacher WHERE user_id:=user_id")
+    teachers = db.execute(query_teacher, {"user_id": result.id}).all()
+    query_employee = text("SELECT * FROM employee WHERE user_id:=user_id")
+    employees = db.execute(query_employee, {"user_id": result.id})
+
+    result += {
+        "student_infos": students,
+        "teacher_infos": teachers,
+        "employee_infos": employees
+    }
+
     return JSONResponse(content=result, status_code=200)
 
 

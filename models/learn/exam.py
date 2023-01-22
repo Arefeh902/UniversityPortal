@@ -10,3 +10,11 @@ class Exam(BaseModel):
     start_at: time
     end_at: time
     type: str
+
+
+class ExamCreate(BaseModel):
+    section_id: int
+    exam_date: date
+    start_at: time
+    end_at: time
+    type: str
