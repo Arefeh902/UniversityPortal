@@ -8,9 +8,25 @@ from models.user.user import UserCreate, UserLogin, User
 from models.user.teacher import Teacher
 from models.user.student import Student
 from models.user.employee import Employee
+from fastapi.middleware.cors import CORSMiddleware
 
 
-app = FastAPI()
+def get_application() -> FastAPI:
+    _app = FastAPI()
+
+    _app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[str(origin) for origin in ["http://localhost:8000", "https://localhost:8000", "http://localhost",
+                                              "https://localhost"]],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    return _app
+
+
+app = get_application()
 app.include_router(api_router)
 
 
